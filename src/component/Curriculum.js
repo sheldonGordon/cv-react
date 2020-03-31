@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Container, Row, Col, Image, ListGroup, ProgressBar, Tab } from 'react-bootstrap'
 import uuid from 'react-uuid'
+import FormCurriculum from './FormCurriculum'
 
 class Curriculum extends Component {
     state = {
+        titre : 'Mon CV 1',
         nom : 'Chatelain',
         prenom : 'Aurélien',
         poste : 'Développeur Web',
@@ -59,12 +61,56 @@ class Curriculum extends Component {
             libelle : 'BTS Informatique de Gestion - Développeur',
             ville : 'Arras',
             organisme : 'Lycée Guy Mollet'
+        }],
+        experiences : [
+        {
+            id : uuid(),
+            dateDebut : 'Octobre 2008',
+            dateFin : 'Juin 2009',
+            poste : 'Mon super poste 1',
+            description : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vestibulum sed lectus eget dapibus. Sed aliquet dapibus mi, quis pellentesque nibh condimentum at. Aenean a diam ac lectus dictum vestibulum. Praesent non varius nulla. Aliquam vitae orci interdum, dictum lacus non, pharetra turpis. Cras a metus ante. Maecenas pretium convallis est, sed placerat metus dictum sed. Nam erat orci, venenatis id dui eu, rutrum vehicula augue. Donec lacus nisi, suscipit ut imperdiet eget, malesuada non ligula. Morbi nibh ex, commodo id arcu rutrum, egestas faucibus purus. Suspendisse nulla nibh, commodo id massa et, fringilla malesuada erat. Nulla in felis elit. Pellentesque vulputate risus vitae nulla vulputate, egestas gravida sem ornare. Suspendisse sit amet erat velit. Phasellus nec ultricies sem.'
+        },{
+            id : uuid(),
+            dateDebut : 'Août 2009',
+            dateFin : 'Janvier 2010',
+            poste : 'Mon super poste 2',
+            description : 'Nam vitae tortor orci. Quisque quis auctor mi. Pellentesque sem odio, placerat sed justo ut, aliquam consequat justo. Donec semper nunc sem, quis euismod justo tincidunt sed. Mauris porttitor rhoncus vulputate. Pellentesque dapibus nisl sapien. Praesent at felis arcu. Etiam sollicitudin turpis in fringilla suscipit. Praesent sit amet iaculis dui.'
+        },{
+            id : uuid(),
+            dateDebut : 'Février 2010',
+            dateFin : 'Décembre 2015',
+            poste : 'Mon super poste 3',
+            description : 'Maecenas rutrum tristique diam vel ornare. Maecenas at lectus dui. Mauris ultricies, mi vel facilisis tempor, nibh sapien fringilla velit, a porttitor velit enim efficitur velit. Pellentesque gravida ut metus egestas cursus. Fusce in rutrum mi. In pretium venenatis eros nec euismod. Curabitur dictum velit eget dictum malesuada. Proin iaculis, mi non mattis rhoncus, elit enim maximus orci, in scelerisque eros massa nec diam. Nunc massa erat, ornare at urna et, ornare semper erat. Donec condimentum lectus tempor, aliquam sem eget, lobortis sem. Maecenas vel malesuada velit, et volutpat ante.'
+        },{
+            id : uuid(),
+            dateDebut : 'Mars 2016',
+            dateFin : 'Septembre 2018',
+            poste : 'Mon super poste 4',
+            description : 'Aenean tempor orci sit amet nulla dictum, eget fermentum dui sollicitudin. Nulla vehicula fermentum eros id convallis. Nam nibh dolor, consectetur nec posuere vitae, posuere in sapien. Aenean ante ante, venenatis a mi nec, dictum congue libero. Aenean vitae leo in odio convallis accumsan. Quisque quis dolor non quam blandit porttitor. Vivamus at urna vestibulum, pulvinar libero at, suscipit ipsum. Vivamus posuere sodales arcu, euismod vehicula eros. Cras aliquet sollicitudin leo vitae gravida. Nam magna purus, scelerisque vitae pretium vitae, pulvinar vel magna. Pellentesque accumsan pretium mollis.'
+        },{
+            id : uuid(),
+            dateDebut : 'Mars 2019',
+            dateFin : 'Aujourd\'hui',
+            poste : 'Mon super poste 5',
+            description : 'Curabitur suscipit cursus nulla, id ultricies diam consequat a. Integer eu odio eget risus consectetur luctus et id augue. Sed lectus nibh, tristique ac luctus ut, commodo ac velit. Etiam pharetra faucibus diam sed finibus. Morbi id volutpat tellus. Suspendisse eu imperdiet urna. Etiam interdum justo id turpis congue, at feugiat nisi lacinia. Aenean blandit quam id pretium ultrices. Praesent tempus elementum egestas. Morbi eget ipsum libero. Cras volutpat, urna vitae dignissim hendrerit, nisi eros accumsan nisl, vulputate lacinia erat lacus ac magna. Mauris imperdiet, risus non maximus ullamcorper, est ipsum molestie nibh, in convallis est odio nec ligula. Vivamus sed urna et magna egestas dictum. Pellentesque quis dui maximus, convallis turpis in, laoreet purus. Suspendisse dolor metus, accumsan in augue posuere, mollis feugiat justo.'
+        }],
+        loisirs : [
+        {
+            id : uuid(),
+            libelle : 'marche'
+        },{
+            id : uuid(),
+            libelle : 'course'
+        },{
+            id : uuid(),
+            libelle : 'randonnée'
+        },{
+            id : uuid(),
+            libelle : 'photographie'
+        },{
+            id : uuid(),
+            libelle : 'jeux de sociétés'
         }]
-    }
-
-    handleChange = event => {
-        const { name, value } = event.target
-        this.setState({[name]: value})
     }
 
     render() {
@@ -93,6 +139,29 @@ class Curriculum extends Component {
                                 </Col>
                             </Row>)
         )
+
+        const experiencesItem = this.state.experiences.map(
+            experience => (
+                <ListGroup.Item action href={`#${experience.id}`} key={experience.id}>
+                    {`${experience.dateDebut} - ${experience.dateFin}`}
+                </ListGroup.Item>
+            )
+        )
+
+        const experiencesContent = this.state.experiences.map(
+            experience => (
+                <Tab.Pane eventKey={`#${experience.id}`} key={experience.id}>
+                    <h2>{experience.poste}</h2>
+                    <p>{experience.description}</p>
+                </Tab.Pane>
+            )
+        )
+
+        const loisirs = this.state.loisirs.map(
+            loisir => (
+                <ListGroup.Item key={loisir.id}>{loisir.libelle}</ListGroup.Item>
+            )
+        )
         return (
             <Container>
                 <Row className='mt-3 text-left'>
@@ -105,12 +174,12 @@ class Curriculum extends Component {
                         <h3>{cv.poste}</h3>
                     </Col>
                     <Col xs='12' lg='5'>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>Age : {cv.age}</ListGroup.Item>
-                        <ListGroup.Item>Tél : {cv.tel}</ListGroup.Item>
-                        <ListGroup.Item>Mail : {cv.mail}</ListGroup.Item>
-                        <ListGroup.Item>Adresse : {cv.adresse}</ListGroup.Item>
-                    </ListGroup>
+                        <ListGroup variant='flush'>
+                            <ListGroup.Item>Age : {cv.age}</ListGroup.Item>
+                            <ListGroup.Item>Tél : {cv.tel}</ListGroup.Item>
+                            <ListGroup.Item>Mail : {cv.mail}</ListGroup.Item>
+                            <ListGroup.Item>Adresse : {cv.adresse}</ListGroup.Item>
+                        </ListGroup>
                     </Col>
                 </Row>
                 <Row className='mt-5'>        
@@ -145,30 +214,34 @@ class Curriculum extends Component {
                         <hr />
                     </Col>                    
                 </Row>
-                <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+                <Tab.Container id="list-group-tabs-example" defaultActiveKey={`#${this.state.experiences[0].id}`}>
                     <Row>
                         <Col sm='4'>
                             <ListGroup>
-                                <ListGroup.Item action href="#link1">
-                                    Link 1
-                                </ListGroup.Item>
-                                <ListGroup.Item action href="#link2">
-                                    Link 2
-                                </ListGroup.Item>
+                                {experiencesItem}
                             </ListGroup>
                         </Col>
                         <Col sm='8'>
                             <Tab.Content>
-                                <Tab.Pane eventKey="#link1">
-                                    <p>fbdfsbdfbdfbdfbdwfbd</p>
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="#link2">
-                                    <p>dfbdfbdfbdfbdfbdfbdfb</p>
-                                </Tab.Pane>
+                                {experiencesContent}
                             </Tab.Content>
                         </Col>
                     </Row>
-                </Tab.Container>
+                </Tab.Container>                
+                <Row className='mt-5'>
+                    <Col lg='12' className='mt-2'>
+                        <h1>Loisirs</h1>
+                        <hr />
+                    </Col>   
+                    <Col lg='12'>
+                        <ListGroup variant='flush'>
+                            {loisirs}
+                        </ListGroup>
+                    </Col>                 
+                </Row>
+                <Row>
+                    <FormCurriculum />
+                </Row>
             </Container>
         )
     }
