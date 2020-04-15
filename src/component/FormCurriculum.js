@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Form} from 'react-bootstrap'
 import uuid from 'react-uuid'
+import FormCompetence from './FormCompetence'
 
 export class FormCurriculum extends Component {
     state = {
@@ -49,6 +50,10 @@ export class FormCurriculum extends Component {
 
     render() {
         const cv = this.state;
+
+        const competences = this.state.competences.map(
+            competence => (<FormCompetence competence={competence} onChange={this.handleChange}/>)
+        )
         return (
             <Form>
                 <Form.Group>
@@ -88,6 +93,13 @@ export class FormCurriculum extends Component {
                         <Form.Control name='adresse' value={cv.adresse} onChange={this.handleChange} placeholder="Adresse" />
                     </Form.Group> 
                 </Form.Row>
+
+                <Form.Group>                    
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control name="description" value={cv.description} onChange={this.handleChange} as="textarea" rows="4" placeholder="Description" />
+                </Form.Group>
+
+                {competences}
             </Form>
         )
     }

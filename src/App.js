@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Curriculum from './component/Curriculum'
 import base from './base'
 import uuid from 'react-uuid'
+import curriculums from './curriculums'
+import { Button } from 'react-bootstrap'
 
 export class App extends Component {
   state = {
-    idUtilisateur : null,
+    idUtilisateur : 123456789,
     curriculums : {}
   }
 
@@ -44,9 +46,13 @@ export class App extends Component {
       this.setState({ curriculums })
   }
 
+  chargerExemple = () => this.setState({curriculums})
   render(){
     return (
-      <Curriculum />
+      <Fragment>
+        <Curriculum />
+        <Button onClick={this.chargerExemple}>Charger</Button>
+      </Fragment>
     )
   }  
 }
