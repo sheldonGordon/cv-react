@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form} from 'react-bootstrap'
+import {Form, Col, Button} from 'react-bootstrap'
 import uuid from 'react-uuid'
 import FormCompetence from './FormCompetence'
 
@@ -17,7 +17,7 @@ export class FormCurriculum extends Component {
         description : '',
         competences : [{
             id : uuid(),
-            maitrise : 90,
+            maitrise : '90%',
             libelle : 'JEE'
         }],
         formations : [{
@@ -48,58 +48,83 @@ export class FormCurriculum extends Component {
         this.setState({[name]: value})
     }
 
+    handleAddCompetence = event => {        
+        const competences = [...this.state.competences, 
+            {
+                id : uuid(),
+                maitrise : '10%',
+                libelle : 'example'
+            }]
+        this.setState({competences})
+    }
+
+    handleRemoveCompetence(event){
+        var array = [...this.state.competences];
+        const index = array.indexOf(event.target.value)
+        if (index !== -1) {
+          array.splice(index, 1);
+          this.setState({competences: array});
+        }
+        
+      }
+
     render() {
         const cv = this.state;
 
         const competences = this.state.competences.map(
-            competence => (<FormCompetence competence={competence} onChange={this.handleChange}/>)
+            competence => (<FormCompetence competence={competence} onChange={this.handleChange} onDelete={this.handleRemoveCompetence.bind(this)}/>)
         )
         return (
-            <Form>
+            <Form>  
+                <h2>Informations Générales</h2>   
+                <hr />           
                 <Form.Group>
                     <Form.Label>Titre du Curriculum</Form.Label>
                     <Form.Control name='titre' value={cv.titre} onChange={this.handleChange} placeholder="Mon cv management" />
                 </Form.Group>
-
+                
                 <Form.Row>
-                    <Form.Group>
+                    <Form.Group as={Col}>
                         <Form.Label>Nom</Form.Label>
                         <Form.Control name='nom' value={cv.nom} onChange={this.handleChange} placeholder="Nom" />
                     </Form.Group> 
-                    <Form.Group>
+                    <Form.Group as={Col}>
                         <Form.Label>Prénom</Form.Label>
                         <Form.Control name='prenom' value={cv.prenom} onChange={this.handleChange} placeholder="Prénom" />
                     </Form.Group> 
                 </Form.Row>
 
                 <Form.Row>
-                    <Form.Group>
+                    <Form.Group as={Col}>
                         <Form.Label>Age</Form.Label>
                         <Form.Control name='age' value={cv.age} onChange={this.handleChange} placeholder="Age" />
                     </Form.Group> 
-                    <Form.Group>
+                    <Form.Group as={Col}>
                         <Form.Label>Téléphone</Form.Label>
                         <Form.Control name='tel' value={cv.tel} onChange={this.handleChange} placeholder="Téléphone" />
                     </Form.Group>
                 </Form.Row> 
                     
                 <Form.Row>
-                    <Form.Group>
+                    <Form.Group as={Col}>
                         <Form.Label>Mail</Form.Label>
                         <Form.Control name='mail' value={cv.mail} onChange={this.handleChange} placeholder="Mail" />
                     </Form.Group> 
-                    <Form.Group>
+                    <Form.Group as={Col}>
                         <Form.Label>Adresse</Form.Label>
                         <Form.Control name='adresse' value={cv.adresse} onChange={this.handleChange} placeholder="Adresse" />
                     </Form.Group> 
                 </Form.Row>
-
+                
                 <Form.Group>                    
                     <Form.Label>Description</Form.Label>
                     <Form.Control name="description" value={cv.description} onChange={this.handleChange} as="textarea" rows="4" placeholder="Description" />
                 </Form.Group>
-
+                
+                <h2>Compétences</h2>   
+                <hr /> 
                 {competences}
+                <Button onClick={this.handleAddCompetence}>+ Compétence</Button>
             </Form>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form, Row} from 'react-bootstrap'
+import {Form, Col, Button} from 'react-bootstrap'
 
 export class FormCompetence extends Component {
     state = {
@@ -20,22 +20,28 @@ export class FormCompetence extends Component {
     render() {
         const competence = this.state;
         return (
-            <Row key={competence.id} >
-            <Form.Group>                    
-                <Form.Label>Libelle</Form.Label>                                        
-                <Form.Control name='libelle' value={competence.libelle} onChange={this.handleChange} placeholder="Libelle" />
-            </Form.Group>
-            <Form.Group>                    
-                <Form.Label>Maitrise</Form.Label>                                        
-                <Form.Control name='maitrise' value={competence.maitrise} onChange={this.handleChange} as='select' size='sm' custom>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </Form.Control>
-            </Form.Group>
-            </Row>
+            <Form.Row key={competence.id} >
+                <Form.Group as={Col}>                                                       
+                    <Form.Control name='libelle' value={competence.libelle} onChange={e => this.props.onChange(e)} placeholder="Libelle" />
+                </Form.Group>
+                <Form.Group as={Col}>                                                        
+                    <Form.Control name='maitrise' value={competence.maitrise} onChange={this.handleChange} as='select' custom  placeholder="Maitrise">
+                        <option>10%</option>
+                        <option>20%</option>
+                        <option>30%</option>
+                        <option>40%</option>
+                        <option>50%</option>
+                        <option>60%</option>
+                        <option>70%</option>
+                        <option>80%</option>
+                        <option>90%</option>
+                        <option>100%</option>
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group as={Col} sm={1}>                           
+                    <Button variant='danger' onClick={e => this.props.onDelete(e)}>Supprimer</Button>
+                </Form.Group>
+            </Form.Row>
         )
     }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Container, Row, Col, Image, ListGroup, ProgressBar, Tab } from 'react-bootstrap'
 import uuid from 'react-uuid'
 import FormCurriculum from './FormCurriculum'
@@ -163,6 +163,7 @@ class Curriculum extends Component {
             )
         )
         return (
+            <Fragment>
             <Container>
                 <Row className='mt-3 text-left'>
                     <Col xs='12' lg='2'>
@@ -239,10 +240,12 @@ class Curriculum extends Component {
                         </ListGroup>
                     </Col>                 
                 </Row>
-                <Row>
-                    <FormCurriculum />
-                </Row>
             </Container>
+
+            <Container>                
+                <FormCurriculum />                
+            </Container>
+            </Fragment>
         )
     }
 }
