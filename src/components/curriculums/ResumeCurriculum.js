@@ -1,14 +1,14 @@
 import React from 'react';
 
-const ResumeCurriculum = () => {
+const ResumeCurriculum = ({curriculum}) => {
     return (
         <div className='card z-depth-0 cv-detail'>
             <div className='card-content grey-text text-darken-3'>
                 <span className='card-title'>
-                    CV Titre
+                    {curriculum.titre}
                 </span>
                 <p>
-                    Description
+                    {curriculum.description}
                 </p>
                 <p className='grey-text'>
                     12 Mars 2020

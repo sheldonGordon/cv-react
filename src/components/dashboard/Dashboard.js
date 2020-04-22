@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import ListCurriculum from '../curriculums/ListCurriculum'
+import { connect } from 'react-redux'
 
 class Dashboard extends Component {
-    render() {
+    render() {        
+        const { curriculums } = this.props
+        
         return (
             <div className='dashboard container'>
                 <div className='row'>
                     <div className='col'>
-                        <ListCurriculum />
+                        <ListCurriculum curriculums={curriculums} />
                     </div>
                 </div>
             </div>
@@ -15,4 +18,11 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard
+const mapStateToProps = (state) => {
+    return{
+        curriculums : state.curriculum.curriculums
+    }
+}
+
+
+export default connect(mapStateToProps)(Dashboard)
