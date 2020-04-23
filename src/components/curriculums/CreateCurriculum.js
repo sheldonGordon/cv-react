@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createCurriculum } from '../../store/actions/curriculumAction'
 
 class CreateCurriculum extends Component {
     state = {
@@ -13,8 +15,8 @@ class CreateCurriculum extends Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(this.state)       
+        e.preventDefault()
+        this.props.createCurriculum(this.state)     
     }
 
     render() {
@@ -39,4 +41,10 @@ class CreateCurriculum extends Component {
     }
 }
 
-export default CreateCurriculum
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createCurriculum : (curriculum) => dispatch(createCurriculum(curriculum))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreateCurriculum)

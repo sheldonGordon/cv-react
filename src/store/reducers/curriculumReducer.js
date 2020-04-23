@@ -7,7 +7,19 @@ const initState = {
 }
 
 const curriculumReducer = (state = initState, action) => {
-    return state
+    switch(action.type) {
+        case 'CREATE_CV':
+            console.log('created cv ', action.curriculum)
+            return state
+            
+        case 'CREATE_CV_ERREUR':
+            console.log('created cv erreur', action.erreur)
+            return state
+
+        default :
+            return state
+        
+    }
 }
 
 export default curriculumReducer
