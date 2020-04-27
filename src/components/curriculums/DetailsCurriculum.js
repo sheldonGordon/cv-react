@@ -1,24 +1,49 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 const DetailsCurriculum = (props) => {
-    const id = props.match.params.id
-    return (
-        <div className='container section cv-details'>
-            <div className='card z-depth-0'>
-                <div className='card-content'>
-                    <span className='card-title'>
-                        CV Titre - {id}
-                    </span>
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pellentesque porta finibus. Etiam tempor non erat vitae posuere. Aenean sed est dignissim, blandit tellus non, maximus velit. Maecenas non facilisis ligula, ac consectetur ex. Etiam ut venenatis libero. Curabitur quis lorem est. Cras sagittis elementum nisl quis efficitur. Cras dictum turpis eget nulla mattis bibendum. Nulla ac nulla et mauris ultricies semper eget ac lectus. 
-                    </p>
-                </div>
-                <div className='card-action gret ligthen-4 grey-text'>
-                    <div>Ajouté le 12 Mars 2020</div>
+    const {curriculum} = props
+    if(curriculum){
+        return(
+            <div className='container section cv-details'>
+                <div className='card z-depth-0'>
+                    <div className='card-content'>
+                        <span className='card-title'>
+                            {curriculum.titre}
+                        </span>
+                        <p>
+                            {curriculum.description}
+                        </p>
+                    </div>
+                    <div className='card-action gret ligthen-4 grey-text'>
+                        <div>Ajouté par {curriculum.nom} {curriculum.prenom}</div>
+                        <div>Ajouté le</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-};
+        )
+    }else{
+        return(
+            <div className='container center'>
+                <p>Chargement du cv ...</p>
+            </div>
+        )
+    }
+}
 
-export default DetailsCurriculum;
+const mapStateToProps = (state, ownProps) => {    
+    const id = ownProps.match.params.id
+    const curriculums = state.firestore.data.curriculums
+    const curriculum = curriculums ? curriculums[id] : null
+    return {
+        curriculum: curriculum
+    }
+}
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+        { collection: 'curriculums'}
+    ])
+)(DetailsCurriculum)
