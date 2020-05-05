@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createCurriculum } from '../../store/actions/curriculumAction'
+import { Redirect } from 'react-router-dom'
 
 class CreateCurriculum extends Component {
     state = {
@@ -20,6 +21,11 @@ class CreateCurriculum extends Component {
     }
 
     render() {
+        const { auth } = this.props
+        
+        if(!auth.uid){
+            return <Redirect to='signin' />
+        }
         return (
             <div className='container'>
                 <form onSubmit={this.handleSubmit} className='white'>
@@ -41,10 +47,16 @@ class CreateCurriculum extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return{
+        auth: state.firebase.auth
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createCurriculum : (curriculum) => dispatch(createCurriculum(curriculum))
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreateCurriculum)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCurriculum)

@@ -3,10 +3,15 @@ import ListCurriculum from '../curriculums/ListCurriculum'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
 
 class Dashboard extends Component {
     render() {        
-        const { curriculums } = this.props
+        const { curriculums, auth } = this.props
+
+        if(!auth.uid){
+            return <Redirect to='/signin' />
+        }
         
         return (
             <div className='dashboard container'>
@@ -22,7 +27,8 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        curriculums : state.firestore.ordered.curriculums
+        curriculums : state.firestore.ordered.curriculums,
+        auth: state.firebase.auth
     }
 }
 
