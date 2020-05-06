@@ -38,8 +38,8 @@ export const signUp = (newUser) => {
             newUser.password
         ).then((resp)=>{
             return firestore.collection('users').doc(resp.user.uid).set({
-                firstName: newUser.nom,
-                lastName: newUser.prenom,
+                nom: newUser.nom,
+                prenom: newUser.prenom,
                 initials: newUser.nom[0] + newUser.prenom[0]
             })
         }).then(() => {

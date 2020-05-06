@@ -17,7 +17,8 @@ class CreateCurriculum extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.createCurriculum(this.state)     
+        this.props.createCurriculum(this.state) 
+        this.props.history.push('/')    
     }
 
     render() {

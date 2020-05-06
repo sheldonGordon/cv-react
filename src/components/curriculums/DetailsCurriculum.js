@@ -17,10 +17,6 @@ const DetailsCurriculum = (props) => {
                             {curriculum.description}
                         </p>
                     </div>
-                    <div className='card-action gret ligthen-4 grey-text'>
-                        <div>Ajouté par {curriculum.nom} {curriculum.prenom}</div>
-                        <div>Ajouté le</div>
-                    </div>
                 </div>
             </div>
         )

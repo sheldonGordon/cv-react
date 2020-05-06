@@ -18,14 +18,22 @@ const store = createStore(
         applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
         reduxFirestore(firebase, fbConfig)
     )
-);
+)
+
+const rrfConfig = {
+    ...fbConfig,
+    userProfile: 'users',  
+    useFirestoreForProfile: true
+}
 
 const rrfProps = {
     firebase,
-    config: fbConfig,
+    config: rrfConfig,
     dispatch: store.dispatch,
-    createFirestoreInstance
-};
+    createFirestoreInstance,
+    presence: 'presence',
+    sessions: 'sessions'
+}
 
 function AuthIsLoaded({children}){
     const auth = useSelector(state => state.firebase.auth)
@@ -44,6 +52,6 @@ ReactDOM.render(
         </ReactReduxFirebaseProvider>
     </Provider>,
     document.getElementById("root")
-);
+)
 
 serviceWorker.unregister(); 

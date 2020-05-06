@@ -2,11 +2,13 @@ export const createCurriculum = (curriculum) =>{
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         //Créer un appel async avec la BDD
         const firestore = getFirestore()
+        const profile = getState().firebase.profile
+        const proprietaire = getState().firebase.auth.uid
         firestore.collection('curriculums').add({
             ...curriculum,
-            nom: 'titi',
-            prenom: 'tutu',
-            proprietaire: 12345,
+            nom: profile.nom,
+            prenom: profile.prenom,
+            proprietaire: proprietaire,
             dateCreation: new Date()
         }).then(() => {
             dispatch({

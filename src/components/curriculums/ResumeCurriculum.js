@@ -1,6 +1,9 @@
 import React from 'react';
+import moment from 'moment/min/moment-with-locales'
+
 
 const ResumeCurriculum = ({curriculum}) => {
+    moment.locale('fr')
     return (
         <div className='card z-depth-0 cv-detail'>
             <div className='card-content grey-text text-darken-3'>
@@ -11,7 +14,10 @@ const ResumeCurriculum = ({curriculum}) => {
                     {curriculum.description}
                 </p>
                 <p className='grey-text'>
-                    12 Mars 2020
+                    Ajouter par {curriculum.nom} {curriculum.prenom}
+                </p>
+                <p className='grey-text'>
+                    {moment(curriculum.dateCreation.toDate()).format('LL')}
                 </p>
             </div>
         </div>
