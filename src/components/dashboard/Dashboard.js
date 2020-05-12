@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ListCurriculum from '../curriculums/ListCurriculum'
+import Notifications from './Notifications'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -16,8 +17,11 @@ class Dashboard extends Component {
         return (
             <div className='dashboard container'>
                 <div className='row'>
-                    <div className='col'>
+                    <div className='col s12 m6'>
                         <ListCurriculum curriculums={curriculums} />
+                    </div>
+                    <div className='col s12 m5 offset-m1'>
+                        <Notifications />
                     </div>
                 </div>
             </div>
