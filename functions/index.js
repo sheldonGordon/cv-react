@@ -28,3 +28,17 @@ exports.curriculumCreated = functions
 
     return createNotification(notification)
 })
+
+exports.userJoined = functions.region('europe-west1').auth.user()
+    .onCreate(user =>{
+        return admin.firestore().collection('users')
+            .doc(user.uid).get().then(doc =>{
+                const newUser = doc.data()
+                const notification = {
+                    content: 'Ajoute d\'un nouvelle utilisateur',
+                    user: `${newUser.nom} ${newUser.prenom}`,
+                    time: admin.firestore.FieldValue.serverTimestamp()
+                }
+                return createNotification(notification)
+            })
+})
