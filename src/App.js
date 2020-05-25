@@ -7,6 +7,8 @@ import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import CreateCurriculums from './components/curriculums/CreateCurriculum'
 
+import './App.css';
+
 export class App extends Component {
   render(){
     return (

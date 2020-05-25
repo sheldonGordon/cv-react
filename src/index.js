@@ -12,6 +12,9 @@ import { ReactReduxFirebaseProvider, getFirebase, isLoaded } from 'react-redux-f
 import fbConfig from './config/fbConfig'
 import firebase from 'firebase/app'
 
+import { Spin } from 'antd'
+import { Layout } from 'antd'
+
 const store = createStore(
     rootReducer,
     compose(
@@ -38,7 +41,7 @@ const rrfProps = {
 function AuthIsLoaded({children}){
     const auth = useSelector(state => state.firebase.auth)
     if(!isLoaded(auth)){
-        return <div> Chargement ... </div>
+        return <Spin size='large' tip='Chargement...'/>
     }
     return children
 }
@@ -47,7 +50,9 @@ ReactDOM.render(
     <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
             <AuthIsLoaded>
-                <App />
+                <Layout>
+                    <App />
+                </Layout>
             </AuthIsLoaded>            
         </ReactReduxFirebaseProvider>
     </Provider>,

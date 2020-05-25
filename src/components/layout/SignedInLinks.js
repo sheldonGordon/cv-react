@@ -1,19 +1,21 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authAction'
 
+import { Menu } from 'antd'
 const SignedInlinks = (props) => {
     return(
-        <ul className="right">
-            <li><NavLink to ='/create'>Nouveau CV</NavLink></li>
-            <li><a href='/#' onClick={props.signOut}>Déconnexion</a></li>
-            <li>
+        <Menu theme='dark' mode='horizontal'>            
+            <Menu.Item><Link to='/' className="brand-logo">Curriculums</Link></Menu.Item>
+            <Menu.Item><NavLink to ='/create'>Nouveau CV</NavLink></Menu.Item>
+            <Menu.Item><a href='/#' onClick={props.signOut}>Déconnexion</a></Menu.Item>
+            <Menu.Item>
                 <NavLink to ='/' className='btn btn-floating red lighten-1'>
                     {props.profile.initials}
                 </NavLink>
-            </li>
-        </ul>
+            </Menu.Item>
+        </Menu>
     )
 }
 

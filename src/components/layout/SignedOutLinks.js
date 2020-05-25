@@ -1,12 +1,15 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
+
+import { Menu } from 'antd'
 
 const SignedOutlinks = () => {
     return(
-        <ul className="right">
-            <li><NavLink to ='/signup'>Créer un compte</NavLink></li>
-            <li><NavLink to ='/signin'>Connexion</NavLink></li>
-        </ul>
+        <Menu theme='dark' mode='horizontal'>
+            <Menu.Item><Link to='/' className="brand-logo">Curriculums</Link></Menu.Item>
+            <Menu.Item><NavLink to ='/signup'>Créer un compte</NavLink></Menu.Item>
+            <Menu.Item><NavLink to ='/signin'>Connexion</NavLink></Menu.Item>
+        </Menu>
     )
 }
 
