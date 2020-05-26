@@ -15,13 +15,14 @@ export class App extends Component {
       <BrowserRouter>
         <div>
           <Navbar />
-          <Switch>
-            <Route exact path='/' component={Dashboard} />
-            <Route path='/cv/:id' component={DetailsCurriculum} />
-            <Route path='/signIn' component={SignIn} />
-            <Route path='/signUp' component={SignUp} />
-            <Route path='/create' component={CreateCurriculums} />
-          </Switch>
+            
+            <Switch>
+              <Route exact path='/' component={Dashboard} />
+              <Route path='/cv/:id' component={DetailsCurriculum} />
+              <Route path='/signIn' component={SignIn} />
+              <Route path='/signUp' component={SignUp} />
+              <Route path='/create' component={CreateCurriculums} />
+            </Switch>
         </div>
       </BrowserRouter>
     )

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authAction'
 import { Redirect } from 'react-router-dom'
 
-import { Layout , Form, Input, Button} from 'antd'
+import { Layout , Form, Input, Button, Alert } from 'antd'
 
 class SignIn extends Component {
     state = {
@@ -24,29 +24,31 @@ class SignIn extends Component {
     render() {
         const { authError, auth } = this.props
 
+        const tailLayout = {
+            wrapperCol: {
+                offset:10
+            }
+        }
         if(auth.uid){
             return <Redirect to='/' />
         }
-        return (
-            <Layout.Content>                
+        return (             
+            <div className='ant-col-16 ant-col-offset-4'>
                 <h5 className='grey-text text-darken-3'>Se connecter</h5>
-                <Form layout='vertical' size='large' onFinish={this.handleSubmit}>
+                
+                <Form layout='vertical' size='large' onFinish={this.handleSubmit} >
                     <Form.Item label='Email'>
                         <Input type='text' id='email' onChange={this.handleChange} />
                     </Form.Item>
                     <Form.Item label='Password'>
                         <Input type='password' id='password' onChange={this.handleChange} />
                     </Form.Item>
-                    <Form.Item layout='vertical'>
+                    <Form.Item {...tailLayout} layout='vertical'>
                         <Button type='primary' htmlType='submit' >Connexion</Button>
                     </Form.Item>
-                    <div className='input-field'>
-                        <div className='red-text center'>
-                            { authError ? <p>{ authError}</p> : null}
-                        </div>
-                    </div>
+                    { authError ? <Alert message={authError} type='error' showIcon closable /> : null}
                 </Form>
-            </Layout.Content>
+            </div>
         )
     }
 }

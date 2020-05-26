@@ -41,7 +41,11 @@ const rrfProps = {
 function AuthIsLoaded({children}){
     const auth = useSelector(state => state.firebase.auth)
     if(!isLoaded(auth)){
-        return <Spin size='large' tip='Chargement...'/>
+        return (
+            <div className='ant-col-offset-11'>
+                <Spin size='large' tip='Chargement...' style={{textAlign: 'center', marginTop:200}} />
+            </div>
+            )
     }
     return children
 }
@@ -49,11 +53,13 @@ function AuthIsLoaded({children}){
 ReactDOM.render(
     <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
-            <AuthIsLoaded>
-                <Layout>
-                    <App />
-                </Layout>
-            </AuthIsLoaded>            
+            <Layout>                
+                <Layout.Content style={{minHeight:'100vh'}}> 
+                    <AuthIsLoaded>
+                        <App />
+                    </AuthIsLoaded>   
+                </Layout.Content> 
+            </Layout>        
         </ReactReduxFirebaseProvider>
     </Provider>,
     document.getElementById("root")

@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { signUp } from '../../store/actions/authAction'
 
+import { Layout , Form, Input, Button, Alert } from 'antd'
+
 class SignUp extends Component {
     state = {
         email: '',
@@ -18,7 +20,6 @@ class SignUp extends Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
         this.props.signUp(this.state) 
     }
 
@@ -30,33 +31,27 @@ class SignUp extends Component {
         }
 
         return (
-            <div className='container'>
-                <form onSubmit={this.handleSubmit} className='white'>
-                    <h5 className='grey-text text-darken-3'>S'enregistrer</h5>
-                    <div className='input-field'>
-                        <label htmlFor='email'>Email</label>
-                        <input type='email' id='email' onChange={this.handleChange} />
-                    </div>
-                    <div className='input-field'>
-                        <label htmlFor='password'>Password</label>
-                        <input type='password' id='password' onChange={this.handleChange} />
-                    </div>
-                    <div className='input-field'>
-                        <label htmlFor='nom'>Nom</label>
-                        <input type='text' id='nom' onChange={this.handleChange} />
-                    </div>
-                    <div className='input-field'>
-                        <label htmlFor='prenom'>Prénom</label>
-                        <input type='text' id='prenom' onChange={this.handleChange} />
-                    </div>
-                    <div className='input-field'>
-                        <button className='btn pink lighten-1 z-depth-0'>Enregistrer</button>
-                        <div className='red-text center'>
-                            { authError ? <p>{ authError}</p> : null}
-                        </div>
-                    </div>
-                </form>
-            </div>
+            <Layout.Content style={{ padding: '0 50px' }}>  
+                <h5 className='grey-text text-darken-3'>S'enregistrer</h5>
+                <Form layout='vertical' size='large' onFinish={this.handleSubmit}>
+                    <Form.Item label='Email'>
+                        <Input type='text' id='email' onChange={this.handleChange} />
+                    </Form.Item>
+                    <Form.Item label='Password'>
+                        <Input type='password' id='password' onChange={this.handleChange} />
+                    </Form.Item>
+                    <Form.Item label='Nom'>
+                        <Input type='text' id='nom' onChange={this.handleChange} />
+                    </Form.Item>
+                    <Form.Item label='Prénom'>
+                        <Input type='text' id='prenom' onChange={this.handleChange} />
+                    </Form.Item>
+                    <Form.Item layout='vertical'>
+                        <Button type='primary' htmlType='submit' >Connexion</Button>
+                    </Form.Item>
+                    { authError ? <Alert message={authError} type='error' showIcon closable /> : null}
+                </Form>
+            </Layout.Content>            
         )
     }
 }
