@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authAction'
 import { Redirect } from 'react-router-dom'
 
-import { Layout , Form, Input, Button, Alert } from 'antd'
+import { Form, Input, Button, Alert } from 'antd'
 
 class SignIn extends Component {
     state = {

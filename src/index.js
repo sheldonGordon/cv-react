@@ -42,7 +42,7 @@ function AuthIsLoaded({children}){
     const auth = useSelector(state => state.firebase.auth)
     if(!isLoaded(auth)){
         return (
-            <div className='ant-col-offset-11'>
+            <div className='center'>
                 <Spin size='large' tip='Chargement...' style={{textAlign: 'center', marginTop:200}} />
             </div>
             )

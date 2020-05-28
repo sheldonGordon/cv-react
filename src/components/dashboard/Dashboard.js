@@ -6,6 +6,8 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
 
+import { Row, Col } from 'antd'
+
 class Dashboard extends Component {
     render() {        
         const { curriculums, auth, notifications } = this.props
@@ -15,16 +17,14 @@ class Dashboard extends Component {
         }
         
         return (
-            <div className='dashboard container'>
-                <div className='row'>
-                    <div className='col s12 m6'>
-                        <ListCurriculum curriculums={curriculums} />
-                    </div>
-                    <div className='col s12 m5 offset-m1'>
-                        <Notifications notifications={notifications}/>
-                    </div>
-                </div>
-            </div>
+            <Row>
+                <Col xs={{ span: 22, offset: 1 }} lg={{ span: 8, offset: 4 }}>
+                    <ListCurriculum curriculums={curriculums} />
+                </Col>
+                <Col xs={{ span: 22, offset: 1 }} lg={{ span: 8, offset: 2 }}>
+                    <Notifications notifications={notifications}/>
+                </Col>
+            </Row>
         )
     }
 }

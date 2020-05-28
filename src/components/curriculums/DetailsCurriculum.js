@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
+import { Spin } from 'antd'
+
 const DetailsCurriculum = (props) => {
     const {curriculum} = props
     if(curriculum){
@@ -16,14 +18,14 @@ const DetailsCurriculum = (props) => {
                         <p>
                             {curriculum.description}
                         </p>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         )
     }else{
         return(
-            <div className='container center'>
-                <p>Chargement du cv ...</p>
+            <div className='center'>
+                <Spin size='large' tip='Chargement du cv...' style={{textAlign: 'center', marginTop:200}} />
             </div>
         )
     }
