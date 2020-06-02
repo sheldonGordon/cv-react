@@ -3,24 +3,21 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
-import { Spin } from 'antd'
+import { Spin, PageHeader,  Row, Col, Typography } from 'antd'
 
 const DetailsCurriculum = (props) => {
     const {curriculum} = props
+    console.log(props)
     if(curriculum){
         return(
-            <div className='container section cv-details'>
-                <div className='card z-depth-0'>
-                    <div className='card-content'>
-                        <span className='card-title'>
-                            {curriculum.titre}
-                        </span>
-                        <p>
-                            {curriculum.description}
-                        </p>
-                    </div>                    
-                </div>
-            </div>
+            <Row>
+                <Col xs={{ span: 22, offset: 1 }} lg={{ span: 16, offset: 4 }}>
+                    <PageHeader title={curriculum.titre} onBack={() => props.history.goBack()}/>
+                    <Typography.Paragraph strong={true}>
+                        {curriculum.description}
+                    </Typography.Paragraph>
+                </Col>
+            </Row>
         )
     }else{
         return(

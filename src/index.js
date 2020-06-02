@@ -56,7 +56,7 @@ ReactDOM.render(
             <Layout>                
                 <Layout.Content style={{minHeight:'100vh'}}> 
                     <AuthIsLoaded>
-                        <App />
+                            <App />
                     </AuthIsLoaded>   
                 </Layout.Content> 
             </Layout>        
