@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { createCurriculum } from '../../store/actions/curriculumAction'
 import { Redirect } from 'react-router-dom'
 import FormationCurriculum from './FormationCurriculum'
+import ReactHtmlParser from 'react-html-parser';
 
 import { Form, Row, Col, Input, Button, Typography, Steps, Divider, DatePicker } from 'antd'
 
@@ -106,7 +107,7 @@ class CreateCurriculum extends Component {
                                         <ul key={formation.id}>
                                             <li>{formation.date[0]} à {formation.date[1]}</li>
                                             <li>{formation.titre}</li>
-                                            <li>{formation.description}</li>
+                                            <li>{ReactHtmlParser(formation.description)}</li>
                                         </ul>
                                     )
                                 })
