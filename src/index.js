@@ -12,8 +12,13 @@ import { ReactReduxFirebaseProvider, getFirebase, isLoaded } from 'react-redux-f
 import fbConfig from './config/fbConfig'
 import firebase from 'firebase/app'
 
-import { Spin } from 'antd'
-import { Layout } from 'antd'
+import { Spin, Layout, ConfigProvider } from 'antd'
+import frFR from 'antd/es/locale/fr_FR'
+
+import moment from 'moment'
+import 'moment/locale/fr'
+
+moment.locale('fr')
 
 const store = createStore(
     rootReducer,
@@ -56,7 +61,9 @@ ReactDOM.render(
             <Layout>                
                 <Layout.Content style={{minHeight:'100vh'}}> 
                     <AuthIsLoaded>
-                            <App />
+                            <ConfigProvider locale={frFR}>
+                                <App />
+                            </ConfigProvider>
                     </AuthIsLoaded>   
                 </Layout.Content> 
             </Layout>        
