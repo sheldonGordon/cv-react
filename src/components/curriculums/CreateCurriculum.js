@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createCurriculum } from "../../store/actions/curriculumAction";
 import { Redirect } from "react-router-dom";
 import FormationCurriculum from "./FormationCurriculum";
+import ExperienceCurriculum from "./ExperienceCurriculum";
 import ReactHtmlParser from "react-html-parser";
 
 import {
@@ -30,6 +31,7 @@ class CreateCurriculum extends Component {
     telephone: "",
     naissance: "",
     formations: [],
+    experiences: [],
   };
 
   handleChange = (e) => {
@@ -66,12 +68,29 @@ class CreateCurriculum extends Component {
     formations.forEach((f) => {
       if (f !== formation) {
         tmpFormations.push(f);
-        console.log("laaaaaaaaaaaaaaa");
+      }
+    });
+  };
+
+  ajouterExperience = (experience) => {
+    const experiences = this.state.experiences;
+    this.setState({
+      experiences: [...experiences, experience],
+    });
+  };
+
+  supprimerExperience = (experience) => {
+    const experiences = this.state.formations;
+    const tmpExperiences = [];
+
+    experiences.forEach((e) => {
+      if (e !== experience) {
+        tmpExperiences.push(e);
       }
     });
 
     this.setState({
-      formations: tmpFormations,
+      experiences: tmpExperiences,
     });
   };
 
@@ -162,6 +181,36 @@ class CreateCurriculum extends Component {
                         </Button>
                       </Typography.Title>
                       {ReactHtmlParser(formation.description)}
+                    </Timeline.Item>
+                  );
+                })}
+              </Timeline>
+            </div>
+
+            <div style={this.state.current !== 3 ? { display: "none" } : {}}>
+              <ExperienceCurriculum ajouter={this.ajouterExperience} />
+              <Timeline mode="left">
+                {this.state.experiences.map((experience) => {
+                  return (
+                    <Timeline.Item
+                      key={experience.id}
+                      label={`${experience.date[0]} à ${experience.date[1]}`}
+                      dot={<RightCircleOutlined style={{ fontSize: "20px" }} />}
+                    >
+                      <Typography.Title level={4} style={{ width: "100%" }}>
+                        {experience.titre}
+
+                        <Button
+                          type="link"
+                          htmlType="button"
+                          onClick={() => this.supprimerFormation(experience)}
+                          danger
+                          style={{ float: "right" }}
+                        >
+                          <DeleteOutlined style={{ fontSize: "20px" }} />
+                        </Button>
+                      </Typography.Title>
+                      {ReactHtmlParser(experience.description)}
                     </Timeline.Item>
                   );
                 })}

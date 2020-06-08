@@ -16,6 +16,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-firestore": "^1.0.1",
+    "react-google-places-autocomplete": "^2.0.6",
     "react-html-parser": "^2.0.2",
     "react-redux": "^7.2.0",
     "react-redux-firebase": "^3.3.1",

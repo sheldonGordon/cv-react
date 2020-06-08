@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import uuid from "react-uuid";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { Editor } from "@tinymce/tinymce-react";
 
 import { Form, Input, Button, DatePicker } from "antd";
@@ -9,13 +10,26 @@ import "moment/locale/fr";
 
 moment.locale("fr");
 
-class FormationCurriculum extends Component {
+class ExperienceCurriculum extends Component {
   state = {
     id: uuid(),
     date: "",
+    lieu: "",
     titre: "",
     description: "",
+    fenetreAdresse: false,
   };
+
+  initialStateAdresse() {
+    return {
+      name: "",
+      street_address: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      googleMapLink: "",
+    };
+  }
 
   onChangeDate = (date, dateString) => {
     this.setState({ date: dateString });
@@ -27,7 +41,7 @@ class FormationCurriculum extends Component {
     });
   };
 
-  ajouterFormation = () => {
+  ajouterExperience = () => {
     this.props.ajouter(this.state);
     this.setState({
       id: uuid(),
@@ -46,7 +60,7 @@ class FormationCurriculum extends Component {
     const dateFormat = "MMMM YYYY";
     return (
       <div>
-        <Form.Item label="Période de la formation">
+        <Form.Item label="Période de l'expérience">
           <DatePicker.RangePicker
             picker="month"
             onChange={this.onChangeDate}
@@ -62,7 +76,17 @@ class FormationCurriculum extends Component {
             }
           />
         </Form.Item>
-        <Form.Item label="Titre de la formation">
+        <Form.Item wrapperCol={{ offset: 0 }} layout="vertical">
+          <GooglePlacesAutocomplete
+            onSelect={(e) => {
+              console.log(e);
+            }}
+          />
+          <Button type="primary" htmlType="button" onClick={this.ajouterLieu}>
+            Ajouter un lieu
+          </Button>
+        </Form.Item>
+        <Form.Item label="Titre de l'expérience">
           <Input
             type="text"
             id="titre"
@@ -70,9 +94,9 @@ class FormationCurriculum extends Component {
             onChange={this.handleChange}
           />
         </Form.Item>
-        <Form.Item label="Description de la formation">
+        <Form.Item label="Description de l'expérience">
           <Editor
-            initialValue="Ajout une description à votre formation."
+            initialValue="Ajout une description à votre expérience."
             value={this.state.description}
             init={{
               height: 200,
@@ -87,7 +111,7 @@ class FormationCurriculum extends Component {
           <Button
             type="primary"
             htmlType="button"
-            onClick={this.ajouterFormation}
+            onClick={this.ajouterExperience}
           >
             Ajouter
           </Button>
@@ -97,4 +121,4 @@ class FormationCurriculum extends Component {
   }
 }
 
-export default FormationCurriculum;
+export default ExperienceCurriculum;
