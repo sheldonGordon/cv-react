@@ -17,19 +17,8 @@ class ExperienceCurriculum extends Component {
     lieu: "",
     titre: "",
     description: "",
-    fenetreAdresse: false,
+    adresse: "",
   };
-
-  initialStateAdresse() {
-    return {
-      name: "",
-      street_address: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      googleMapLink: "",
-    };
-  }
 
   onChangeDate = (date, dateString) => {
     this.setState({ date: dateString });
@@ -48,12 +37,19 @@ class ExperienceCurriculum extends Component {
       date: "",
       titre: "",
       description: "",
+      adresse: "",
     });
   };
 
   handleEditorChange = (content, editor) => {
     this.setState({ description: content });
     console.log("Content was updated:", content);
+  };
+
+  handleSelectAdresse = (e) => {
+    this.setState({
+      adresse: e.description,
+    });
   };
 
   render() {
@@ -76,15 +72,8 @@ class ExperienceCurriculum extends Component {
             }
           />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 0 }} layout="vertical">
-          <GooglePlacesAutocomplete
-            onSelect={(e) => {
-              console.log(e);
-            }}
-          />
-          <Button type="primary" htmlType="button" onClick={this.ajouterLieu}>
-            Ajouter un lieu
-          </Button>
+        <Form.Item label="Lieu de l'expérience">
+          <GooglePlacesAutocomplete onSelect={this.handleSelectAdresse} />
         </Form.Item>
         <Form.Item label="Titre de l'expérience">
           <Input

@@ -4,6 +4,7 @@ import { createCurriculum } from "../../store/actions/curriculumAction";
 import { Redirect } from "react-router-dom";
 import FormationCurriculum from "./FormationCurriculum";
 import ExperienceCurriculum from "./ExperienceCurriculum";
+import CompetenceCurriculum from "./CompetenceCurriculum";
 import ReactHtmlParser from "react-html-parser";
 
 import {
@@ -17,6 +18,7 @@ import {
   Divider,
   DatePicker,
   Timeline,
+  Rate,
 } from "antd";
 
 import { DeleteOutlined, RightCircleOutlined } from "@ant-design/icons";
@@ -32,13 +34,13 @@ class CreateCurriculum extends Component {
     naissance: "",
     formations: [],
     experiences: [],
+    competences: [],
   };
 
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value,
     });
-    console.log(this.state);
   };
 
   handleSubmit = (e) => {
@@ -63,12 +65,11 @@ class CreateCurriculum extends Component {
 
   supprimerFormation = (formation) => {
     const formations = this.state.formations;
-    const tmpFormations = [];
+    const index = formations.indexOf(formation);
+    delete formations[index];
 
-    formations.forEach((f) => {
-      if (f !== formation) {
-        tmpFormations.push(f);
-      }
+    this.setState({
+      formations: formations,
     });
   };
 
@@ -81,16 +82,28 @@ class CreateCurriculum extends Component {
 
   supprimerExperience = (experience) => {
     const experiences = this.state.formations;
-    const tmpExperiences = [];
-
-    experiences.forEach((e) => {
-      if (e !== experience) {
-        tmpExperiences.push(e);
-      }
-    });
+    const index = experiences.indexOf(experience);
+    delete experiences[index];
 
     this.setState({
-      experiences: tmpExperiences,
+      experiences: experiences,
+    });
+  };
+
+  ajouterCompetence = (competence) => {
+    const competences = this.state.competences;
+    this.setState({
+      competences: [...competences, competence],
+    });
+  };
+
+  supprimerCompetence = (competence) => {
+    const competences = this.state.competences;
+    const index = competences.indexOf(competence);
+    delete competences[index];
+
+    this.setState({
+      competences: competences,
     });
   };
 
@@ -210,11 +223,38 @@ class CreateCurriculum extends Component {
                           <DeleteOutlined style={{ fontSize: "20px" }} />
                         </Button>
                       </Typography.Title>
+                      <Typography.Paragraph>
+                        {experience.adresse}
+                      </Typography.Paragraph>
                       {ReactHtmlParser(experience.description)}
                     </Timeline.Item>
                   );
                 })}
               </Timeline>
+            </div>
+
+            <div style={this.state.current !== 4 ? { display: "none" } : {}}>
+              <CompetenceCurriculum ajouter={this.ajouterCompetence} />
+              {this.state.competences.map((competence) => {
+                return (
+                  <div key={competence.id}>
+                    <Typography.Title level={4} style={{ width: "100%" }}>
+                      {competence.libelle}
+
+                      <Button
+                        type="link"
+                        htmlType="button"
+                        onClick={() => this.supprimerCompetence(competence)}
+                        danger
+                        style={{ float: "right" }}
+                      >
+                        <DeleteOutlined style={{ fontSize: "20px" }} />
+                      </Button>
+                    </Typography.Title>
+                    <Rate value={competence.maitrise} disabled allowHalf />
+                  </div>
+                );
+              })}
             </div>
             <Form.Item
               wrapperCol={{ offset: 0 }}
