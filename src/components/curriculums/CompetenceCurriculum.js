@@ -31,6 +31,7 @@ class CompetenceCurriculum extends Component {
       maitrise: 2.5,
     });
   };
+
   render() {
     return (
       <div>

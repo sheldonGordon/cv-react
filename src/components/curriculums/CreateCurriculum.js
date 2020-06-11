@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import FormationCurriculum from "./FormationCurriculum";
 import ExperienceCurriculum from "./ExperienceCurriculum";
 import CompetenceCurriculum from "./CompetenceCurriculum";
+import LangueCurriculum from "./LangueCurriculum";
 import ReactHtmlParser from "react-html-parser";
 
 import {
@@ -35,6 +36,7 @@ class CreateCurriculum extends Component {
     formations: [],
     experiences: [],
     competences: [],
+    langues: [],
   };
 
   handleChange = (e) => {
@@ -104,6 +106,23 @@ class CreateCurriculum extends Component {
 
     this.setState({
       competences: competences,
+    });
+  };
+
+  ajouterLangue = (langue) => {
+    const langues = this.state.langues;
+    this.setState({
+      langues: [...langues, langue],
+    });
+  };
+
+  supprimerLangue = (langue) => {
+    const langues = this.state.langues;
+    const index = langues.indexOf(langue);
+    delete langues[index];
+
+    this.setState({
+      langues: langues,
     });
   };
 
@@ -252,6 +271,31 @@ class CreateCurriculum extends Component {
                       </Button>
                     </Typography.Title>
                     <Rate value={competence.maitrise} disabled allowHalf />
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={this.state.current !== 5 ? { display: "none" } : {}}>
+              <LangueCurriculum ajouter={this.ajouterLangue} />
+              {this.state.langues.map((langue) => {
+                return (
+                  <div key={langue.id}>
+                    <Typography.Title level={4} style={{ width: "100%" }}>
+                      {langue.libelle}
+
+                      <Button
+                        type="link"
+                        htmlType="button"
+                        onClick={() => this.supprimerLangue(langue)}
+                        danger
+                        style={{ float: "right" }}
+                      >
+                        <DeleteOutlined style={{ fontSize: "20px" }} />
+                      </Button>
+                    </Typography.Title>
+
+                    <Typography.Paragraph>{langue.niveau}</Typography.Paragraph>
                   </div>
                 );
               })}
