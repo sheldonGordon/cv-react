@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createCurriculum } from "../../store/actions/curriculumAction";
 import { Redirect } from "react-router-dom";
-import FormationCurriculum from "./FormationCurriculum";
-import ExperienceCurriculum from "./ExperienceCurriculum";
-import CompetenceCurriculum from "./CompetenceCurriculum";
-import LangueCurriculum from "./LangueCurriculum";
+import FormationCurriculum from "./steps/FormationCurriculum";
+import ExperienceCurriculum from "./steps/ExperienceCurriculum";
+import CompetenceCurriculum from "./steps/CompetenceCurriculum";
+import LangueCurriculum from "./steps/LangueCurriculum";
+import LoisirCurriculum from "./steps/LoisirCurriculum";
 import ReactHtmlParser from "react-html-parser";
 
 import {
@@ -37,6 +38,7 @@ class CreateCurriculum extends Component {
     experiences: [],
     competences: [],
     langues: [],
+    loisirs: [],
   };
 
   handleChange = (e) => {
@@ -68,7 +70,8 @@ class CreateCurriculum extends Component {
   supprimerFormation = (formation) => {
     const formations = this.state.formations;
     const index = formations.indexOf(formation);
-    delete formations[index];
+
+    formations.splice(index, 1);
 
     this.setState({
       formations: formations,
@@ -85,7 +88,8 @@ class CreateCurriculum extends Component {
   supprimerExperience = (experience) => {
     const experiences = this.state.formations;
     const index = experiences.indexOf(experience);
-    delete experiences[index];
+
+    experiences.splice(index, 1);
 
     this.setState({
       experiences: experiences,
@@ -102,7 +106,8 @@ class CreateCurriculum extends Component {
   supprimerCompetence = (competence) => {
     const competences = this.state.competences;
     const index = competences.indexOf(competence);
-    delete competences[index];
+
+    competences.splice(index, 1);
 
     this.setState({
       competences: competences,
@@ -119,10 +124,29 @@ class CreateCurriculum extends Component {
   supprimerLangue = (langue) => {
     const langues = this.state.langues;
     const index = langues.indexOf(langue);
-    delete langues[index];
+
+    langues.splice(index, 1);
 
     this.setState({
       langues: langues,
+    });
+  };
+
+  ajouterLoisir = (loisir) => {
+    const loisirs = this.state.loisirs;
+    this.setState({
+      loisirs: [...loisirs, loisir],
+    });
+  };
+
+  supprimerLoisir = (loisir) => {
+    const loisirs = this.state.loisirs;
+    const index = loisirs.indexOf(loisir);
+
+    loisirs.splice(index, 1);
+
+    this.setState({
+      loisirs: loisirs,
     });
   };
 
@@ -235,7 +259,7 @@ class CreateCurriculum extends Component {
                         <Button
                           type="link"
                           htmlType="button"
-                          onClick={() => this.supprimerFormation(experience)}
+                          onClick={() => this.supprimerExperience(experience)}
                           danger
                           style={{ float: "right" }}
                         >
@@ -296,6 +320,29 @@ class CreateCurriculum extends Component {
                     </Typography.Title>
 
                     <Typography.Paragraph>{langue.niveau}</Typography.Paragraph>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={this.state.current !== 6 ? { display: "none" } : {}}>
+              <LoisirCurriculum ajouter={this.ajouterLoisir} />
+              {this.state.loisirs.map((loisir) => {
+                return (
+                  <div key={loisir.id}>
+                    <Typography.Title level={4} style={{ width: "100%" }}>
+                      {loisir.libelle}
+
+                      <Button
+                        type="link"
+                        htmlType="button"
+                        onClick={() => this.supprimerLoisir(loisir)}
+                        danger
+                        style={{ float: "right" }}
+                      >
+                        <DeleteOutlined style={{ fontSize: "20px" }} />
+                      </Button>
+                    </Typography.Title>
                   </div>
                 );
               })}

@@ -73,7 +73,10 @@ class ExperienceCurriculum extends Component {
           />
         </Form.Item>
         <Form.Item label="Lieu de l'expérience">
-          <GooglePlacesAutocomplete onSelect={this.handleSelectAdresse} />
+          <GooglePlacesAutocomplete
+            onSelect={this.handleSelectAdresse}
+            initialValue={this.state.adresse}
+          />
         </Form.Item>
         <Form.Item label="Titre de l'expérience">
           <Input
