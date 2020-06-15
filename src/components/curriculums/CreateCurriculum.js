@@ -21,15 +21,42 @@ import {
   DatePicker,
   Timeline,
   Rate,
+  Upload,
+  message,
 } from "antd";
 
-import { DeleteOutlined, RightCircleOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  RightCircleOutlined,
+  LoadingOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("Vous ne pouvez télécharger que des fichiers JPG / PNG!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("L'image doit être inférieure à 2 Mo!");
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 class CreateCurriculum extends Component {
   state = {
     current: 0,
+    loading: false,
     titre: "",
     description: "",
+    image: "",
     adresse: "",
     email: "",
     telephone: "",
@@ -54,6 +81,23 @@ class CreateCurriculum extends Component {
 
   onChangeStep = (current) => {
     this.setState({ current });
+  };
+
+  handleChangeAvatar = (info) => {
+    if (info.file.status === "uploading") {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === "done") {
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        console.log(imageUrl);
+
+        this.setState({
+          image: imageUrl,
+          loading: false,
+        });
+      });
+    }
   };
 
   onChangeDate = (date, dateString) => {
@@ -153,6 +197,13 @@ class CreateCurriculum extends Component {
   render() {
     const { auth } = this.props;
 
+    const uploadButton = (
+      <div>
+        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div className="ant-upload-text">Photo</div>
+      </div>
+    );
+
     const dateFormat = "DD MMMM YYYY";
 
     if (!auth.uid) {
@@ -185,6 +236,26 @@ class CreateCurriculum extends Component {
                   rows={4}
                   onChange={this.handleChange}
                 />
+              </Form.Item>
+              <Form.Item label="Photo">
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  beforeUpload={beforeUpload}
+                  onChange={this.handleChangeAvatar}
+                >
+                  {this.state.image ? (
+                    <img
+                      src={this.state.image}
+                      alt="avatar"
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    uploadButton
+                  )}
+                </Upload>
               </Form.Item>
             </div>
 
