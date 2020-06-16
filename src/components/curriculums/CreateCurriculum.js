@@ -8,6 +8,7 @@ import CompetenceCurriculum from "./steps/CompetenceCurriculum";
 import LangueCurriculum from "./steps/LangueCurriculum";
 import LoisirCurriculum from "./steps/LoisirCurriculum";
 import ReactHtmlParser from "react-html-parser";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import {
   Form,
@@ -69,14 +70,39 @@ class CreateCurriculum extends Component {
   };
 
   handleChange = (e) => {
+    if ((e.target.id === "titre") & (e.target.value === "")) {
+      document
+        .getElementById("titre")
+        .parentElement.parentElement.parentElement.parentElement.classList.add(
+          "ant-form-item-has-error"
+        );
+    } else if ((e.target.id === "titre") & (e.target.value !== "")) {
+      document
+        .getElementById("titre")
+        .parentElement.parentElement.parentElement.parentElement.classList.remove(
+          "ant-form-item-has-error"
+        );
+    }
+
     this.setState({
       [e.target.id]: e.target.value,
     });
   };
 
   handleSubmit = (e) => {
-    this.props.createCurriculum(this.state);
-    this.props.history.push("/");
+    e.preventDefault();
+    if (this.state.titre === "") {
+      message.error("Choisissez un titre pour votre cv.");
+      this.setState({ current: 0 });
+      document
+        .getElementById("titre")
+        .parentElement.parentElement.parentElement.parentElement.classList.add(
+          "ant-form-item-has-error"
+        );
+    } else {
+      this.props.createCurriculum(this.state);
+      this.props.history.push("/");
+    }
   };
 
   onChangeStep = (current) => {
@@ -90,8 +116,6 @@ class CreateCurriculum extends Component {
     }
     if (info.file.status === "done") {
       getBase64(info.file.originFileObj, (imageUrl) => {
-        console.log(imageUrl);
-
         this.setState({
           image: imageUrl,
           loading: false,
@@ -213,7 +237,7 @@ class CreateCurriculum extends Component {
       <Row>
         <Col xs={{ span: 22, offset: 1 }} lg={{ span: 20, offset: 2 }}>
           <Typography.Title level={3}>Créer un nouveau CV</Typography.Title>
-          <Form layout="vertical" onFinish={this.handleSubmit}>
+          <Form layout="vertical">
             <Steps current={this.state.current} onChange={this.onChangeStep}>
               <Steps.Step title="Description" />
               <Steps.Step title="Données personnelles" />
@@ -227,8 +251,13 @@ class CreateCurriculum extends Component {
 
             <Divider />
             <div style={this.state.current !== 0 ? { display: "none" } : {}}>
-              <Form.Item label="Titre">
-                <Input type="text" id="titre" onChange={this.handleChange} />
+              <Form.Item id="test" label="Titre">
+                <Input
+                  type="text"
+                  id="titre"
+                  onChange={this.handleChange}
+                  required
+                />
               </Form.Item>
               <Form.Item label="Description">
                 <Input.TextArea
@@ -243,6 +272,7 @@ class CreateCurriculum extends Component {
                   listType="picture-card"
                   className="avatar-uploader"
                   showUploadList={false}
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   beforeUpload={beforeUpload}
                   onChange={this.handleChangeAvatar}
                 >
@@ -261,7 +291,12 @@ class CreateCurriculum extends Component {
 
             <div style={this.state.current !== 1 ? { display: "none" } : {}}>
               <Form.Item label="Adresse">
-                <Input type="text" id="adresse" onChange={this.handleChange} />
+                <GooglePlacesAutocomplete
+                  onSelect={this.handleSelectAdresse}
+                  initialValue={this.state.adresse}
+                  inputClassName="ant-input"
+                  placeholder=""
+                />
               </Form.Item>
               <Form.Item label="Email">
                 <Input type="text" id="email" onChange={this.handleChange} />
@@ -427,6 +462,7 @@ class CreateCurriculum extends Component {
                 type="primary"
                 htmlType="submit"
                 style={this.state.current !== 7 ? { display: "none" } : {}}
+                onClick={this.handleSubmit}
               >
                 Enregistrer
               </Button>

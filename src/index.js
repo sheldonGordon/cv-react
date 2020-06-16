@@ -73,7 +73,17 @@ ReactDOM.render(
       <Layout>
         <Layout.Content style={{ minHeight: "100vh" }}>
           <AuthIsLoaded>
-            <ConfigProvider locale={frFR}>
+            <ConfigProvider
+              locale={frFR}
+              componentSize="middle"
+              input={{
+                style: {
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                },
+              }}
+            >
               <App />
             </ConfigProvider>
           </AuthIsLoaded>

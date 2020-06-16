@@ -1,1 +1,7 @@
-@import '../node_modules/antd/dist/antd.css'
+@import "../node_modules/antd/dist/antd.css";
+
+input {
+  border-top: medium none !important;
+  border-left: medium none !important;
+  border-right: medium none !important;
+}
