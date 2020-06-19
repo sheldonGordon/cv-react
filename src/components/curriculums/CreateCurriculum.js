@@ -7,7 +7,9 @@ import ExperienceCurriculum from "./steps/ExperienceCurriculum";
 import CompetenceCurriculum from "./steps/CompetenceCurriculum";
 import LangueCurriculum from "./steps/LangueCurriculum";
 import LoisirCurriculum from "./steps/LoisirCurriculum";
-import ReactHtmlParser from "react-html-parser";
+import FormationList from "./lists/FormationList";
+import ExperienceList from "./lists/ExperienceList";
+import CompetenceList from "./lists/CompetenceList";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import {
@@ -21,14 +23,14 @@ import {
   Divider,
   DatePicker,
   Timeline,
-  Rate,
   Upload,
   message,
+  Descriptions,
+  Avatar,
 } from "antd";
 
 import {
   DeleteOutlined,
-  RightCircleOutlined,
   LoadingOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
@@ -122,6 +124,12 @@ class CreateCurriculum extends Component {
         });
       });
     }
+  };
+
+  handleSelectAdresse = (e) => {
+    this.setState({
+      adresse: e.description,
+    });
   };
 
   onChangeDate = (date, dateString) => {
@@ -256,6 +264,7 @@ class CreateCurriculum extends Component {
                   type="text"
                   id="titre"
                   onChange={this.handleChange}
+                  value={this.state.titre}
                   required
                 />
               </Form.Item>
@@ -264,6 +273,7 @@ class CreateCurriculum extends Component {
                   id="description"
                   rows={4}
                   onChange={this.handleChange}
+                  value={this.state.description}
                 />
               </Form.Item>
               <Form.Item label="Photo">
@@ -321,29 +331,15 @@ class CreateCurriculum extends Component {
 
             <div style={this.state.current !== 2 ? { display: "none" } : {}}>
               <FormationCurriculum ajouter={this.ajouterFormation} />
-              <Timeline mode="left">
+              <Timeline className="ant-timeline-label">
                 {this.state.formations.map((formation) => {
                   return (
-                    <Timeline.Item
+                    <FormationList
                       key={formation.id}
-                      label={`${formation.date[0]} à ${formation.date[1]}`}
-                      dot={<RightCircleOutlined style={{ fontSize: "20px" }} />}
-                    >
-                      <Typography.Title level={4} style={{ width: "100%" }}>
-                        {formation.titre}
-
-                        <Button
-                          type="link"
-                          htmlType="button"
-                          onClick={() => this.supprimerFormation(formation)}
-                          danger
-                          style={{ float: "right" }}
-                        >
-                          <DeleteOutlined style={{ fontSize: "20px" }} />
-                        </Button>
-                      </Typography.Title>
-                      {ReactHtmlParser(formation.description)}
-                    </Timeline.Item>
+                      formation={formation}
+                      supprimer={this.supprimerFormation}
+                      toSuppr={true}
+                    />
                   );
                 })}
               </Timeline>
@@ -351,32 +347,15 @@ class CreateCurriculum extends Component {
 
             <div style={this.state.current !== 3 ? { display: "none" } : {}}>
               <ExperienceCurriculum ajouter={this.ajouterExperience} />
-              <Timeline mode="left">
+              <Timeline className="ant-timeline-label">
                 {this.state.experiences.map((experience) => {
                   return (
-                    <Timeline.Item
+                    <ExperienceList
                       key={experience.id}
-                      label={`${experience.date[0]} à ${experience.date[1]}`}
-                      dot={<RightCircleOutlined style={{ fontSize: "20px" }} />}
-                    >
-                      <Typography.Title level={4} style={{ width: "100%" }}>
-                        {experience.titre}
-
-                        <Button
-                          type="link"
-                          htmlType="button"
-                          onClick={() => this.supprimerExperience(experience)}
-                          danger
-                          style={{ float: "right" }}
-                        >
-                          <DeleteOutlined style={{ fontSize: "20px" }} />
-                        </Button>
-                      </Typography.Title>
-                      <Typography.Paragraph>
-                        {experience.adresse}
-                      </Typography.Paragraph>
-                      {ReactHtmlParser(experience.description)}
-                    </Timeline.Item>
+                      experience={experience}
+                      supprimer={this.supprimerExperience}
+                      toSuppr={true}
+                    />
                   );
                 })}
               </Timeline>
@@ -386,22 +365,12 @@ class CreateCurriculum extends Component {
               <CompetenceCurriculum ajouter={this.ajouterCompetence} />
               {this.state.competences.map((competence) => {
                 return (
-                  <div key={competence.id}>
-                    <Typography.Title level={4} style={{ width: "100%" }}>
-                      {competence.libelle}
-
-                      <Button
-                        type="link"
-                        htmlType="button"
-                        onClick={() => this.supprimerCompetence(competence)}
-                        danger
-                        style={{ float: "right" }}
-                      >
-                        <DeleteOutlined style={{ fontSize: "20px" }} />
-                      </Button>
-                    </Typography.Title>
-                    <Rate value={competence.maitrise} disabled allowHalf />
-                  </div>
+                  <CompetenceList
+                    key={competence.id}
+                    competence={competence}
+                    supprimer={this.supprimerCompetence}
+                    toSuppr={true}
+                  />
                 );
               })}
             </div>
@@ -453,20 +422,59 @@ class CreateCurriculum extends Component {
                 );
               })}
             </div>
-            <Form.Item
-              wrapperCol={{ offset: 0 }}
-              layout="vertical"
-              noStyle={this.state.current !== 7}
-            >
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={this.state.current !== 7 ? { display: "none" } : {}}
-                onClick={this.handleSubmit}
+
+            <div style={this.state.current !== 7 ? { display: "none" } : {}}>
+              <Descriptions title="Description" column={3} size="middle">
+                <Descriptions.Item span={3}>
+                  <Avatar shape="square" size={128} src={this.state.image} />
+                </Descriptions.Item>
+                <Descriptions.Item label="titre" span={3}>
+                  {this.state.titre}
+                </Descriptions.Item>
+                <Descriptions.Item label="description" span={3}>
+                  {this.state.description}
+                </Descriptions.Item>
+              </Descriptions>
+              <Descriptions
+                title="Données personnelles"
+                column={4}
+                size="middle"
               >
-                Enregistrer
-              </Button>
-            </Form.Item>
+                <Descriptions.Item label="Adresse" span={4}>
+                  {this.state.adresse}
+                </Descriptions.Item>
+                <Descriptions.Item label="email" span={2}>
+                  {this.state.email}
+                </Descriptions.Item>
+                <Descriptions.Item label="Téléphone" span={2}>
+                  {this.state.telephone}
+                </Descriptions.Item>
+                <Descriptions.Item label="Date de naissance" span={2}>
+                  {this.state.naissance}
+                </Descriptions.Item>
+              </Descriptions>
+              <Timeline className="ant-timeline-label">
+                {this.state.formations.map((formation) => {
+                  return (
+                    <FormationList
+                      key={formation.id}
+                      formation={formation}
+                      supprimer={this.supprimerFormation}
+                      toSuppr={false}
+                    />
+                  );
+                })}
+              </Timeline>
+              <Form.Item wrapperCol={{ offset: 0 }} layout="vertical">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={this.handleSubmit}
+                >
+                  Enregistrer
+                </Button>
+              </Form.Item>
+            </div>
           </Form>
         </Col>
       </Row>
