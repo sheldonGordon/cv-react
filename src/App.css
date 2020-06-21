@@ -5,3 +5,27 @@ input {
   border-left: medium none !important;
   border-right: medium none !important;
 }
+
+hr {
+  border: 1px solid rgba(220, 220, 220, 0.8) !important;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+strong {
+  font-size: 1.4em;
+}
+
+.ant-timeline {
+  padding-left: 20px;
+}
+
+.CoteGaucheCV {
+  background-color: royalblue;
+  padding: 10px;
+}
+
+.CoteGaucheCV > div > div *,
+.CoteGaucheCV > div > * {
+  color: beige !important;
+}

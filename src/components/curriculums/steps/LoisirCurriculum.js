@@ -16,8 +16,6 @@ class LangueCurriculum extends Component {
   };
 
   ajouterLoisir = () => {
-    console.log(this.state);
-
     this.props.ajouter(this.state);
     this.setState({
       id: uuid(),

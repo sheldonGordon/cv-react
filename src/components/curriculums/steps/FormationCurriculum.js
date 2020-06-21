@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import uuid from "react-uuid";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { Editor } from "@tinymce/tinymce-react";
 
 import { Form, Input, Button, DatePicker } from "antd";
@@ -14,6 +15,7 @@ class FormationCurriculum extends Component {
     id: uuid(),
     date: "",
     titre: "",
+    adresse: "",
     description: "",
   };
 
@@ -33,6 +35,7 @@ class FormationCurriculum extends Component {
       id: uuid(),
       date: "",
       titre: "",
+      adresse: "",
       description: "",
     });
   };
@@ -40,6 +43,12 @@ class FormationCurriculum extends Component {
   handleEditorChange = (content, editor) => {
     this.setState({ description: content });
     console.log("Content was updated:", content);
+  };
+
+  handleSelectAdresse = (e) => {
+    this.setState({
+      adresse: e.description,
+    });
   };
 
   render() {
@@ -70,9 +79,18 @@ class FormationCurriculum extends Component {
             onChange={this.handleChange}
           />
         </Form.Item>
+
+        <Form.Item label="Lieu de la formation">
+          <GooglePlacesAutocomplete
+            onSelect={this.handleSelectAdresse}
+            initialValue={this.state.adresse}
+            placeholder=""
+            inputClassName="ant-input"
+          />
+        </Form.Item>
         <Form.Item label="Description de la formation">
           <Editor
-            initialValue="Ajout une description à votre formation."
+            initialValue="Ajouter une description à la formation."
             value={this.state.description}
             init={{
               height: 200,

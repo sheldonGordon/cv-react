@@ -7,10 +7,15 @@ import ExperienceCurriculum from "./steps/ExperienceCurriculum";
 import CompetenceCurriculum from "./steps/CompetenceCurriculum";
 import LangueCurriculum from "./steps/LangueCurriculum";
 import LoisirCurriculum from "./steps/LoisirCurriculum";
+import ResumeCurriculum from "./steps/ResumeCurriculum";
 import FormationList from "./lists/FormationList";
 import ExperienceList from "./lists/ExperienceList";
 import CompetenceList from "./lists/CompetenceList";
+import LangueList from "./lists/LangueList";
+import LoisirList from "./lists/LoisirList";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+
+import { IconContext } from "react-icons";
 
 import {
   Form,
@@ -25,15 +30,9 @@ import {
   Timeline,
   Upload,
   message,
-  Descriptions,
-  Avatar,
 } from "antd";
 
-import {
-  DeleteOutlined,
-  LoadingOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -227,7 +226,7 @@ class CreateCurriculum extends Component {
   };
 
   render() {
-    const { auth } = this.props;
+    const { auth, profile } = this.props;
 
     const uploadButton = (
       <div>
@@ -331,7 +330,7 @@ class CreateCurriculum extends Component {
 
             <div style={this.state.current !== 2 ? { display: "none" } : {}}>
               <FormationCurriculum ajouter={this.ajouterFormation} />
-              <Timeline className="ant-timeline-label">
+              <Timeline>
                 {this.state.formations.map((formation) => {
                   return (
                     <FormationList
@@ -347,7 +346,7 @@ class CreateCurriculum extends Component {
 
             <div style={this.state.current !== 3 ? { display: "none" } : {}}>
               <ExperienceCurriculum ajouter={this.ajouterExperience} />
-              <Timeline className="ant-timeline-label">
+              <Timeline>
                 {this.state.experiences.map((experience) => {
                   return (
                     <ExperienceList
@@ -379,23 +378,12 @@ class CreateCurriculum extends Component {
               <LangueCurriculum ajouter={this.ajouterLangue} />
               {this.state.langues.map((langue) => {
                 return (
-                  <div key={langue.id}>
-                    <Typography.Title level={4} style={{ width: "100%" }}>
-                      {langue.libelle}
-
-                      <Button
-                        type="link"
-                        htmlType="button"
-                        onClick={() => this.supprimerLangue(langue)}
-                        danger
-                        style={{ float: "right" }}
-                      >
-                        <DeleteOutlined style={{ fontSize: "20px" }} />
-                      </Button>
-                    </Typography.Title>
-
-                    <Typography.Paragraph>{langue.niveau}</Typography.Paragraph>
-                  </div>
+                  <LangueList
+                    key={langue.id}
+                    langue={langue}
+                    supprimer={this.supprimerLangue}
+                    toSuppr={true}
+                  />
                 );
               })}
             </div>
@@ -404,67 +392,21 @@ class CreateCurriculum extends Component {
               <LoisirCurriculum ajouter={this.ajouterLoisir} />
               {this.state.loisirs.map((loisir) => {
                 return (
-                  <div key={loisir.id}>
-                    <Typography.Title level={4} style={{ width: "100%" }}>
-                      {loisir.libelle}
-
-                      <Button
-                        type="link"
-                        htmlType="button"
-                        onClick={() => this.supprimerLoisir(loisir)}
-                        danger
-                        style={{ float: "right" }}
-                      >
-                        <DeleteOutlined style={{ fontSize: "20px" }} />
-                      </Button>
-                    </Typography.Title>
-                  </div>
+                  <LoisirList
+                    key={loisir.id}
+                    loisir={loisir}
+                    supprimer={this.supprimerLoisir}
+                    toSuppr={true}
+                  />
                 );
               })}
             </div>
 
             <div style={this.state.current !== 7 ? { display: "none" } : {}}>
-              <Descriptions title="Description" column={3} size="middle">
-                <Descriptions.Item span={3}>
-                  <Avatar shape="square" size={128} src={this.state.image} />
-                </Descriptions.Item>
-                <Descriptions.Item label="titre" span={3}>
-                  {this.state.titre}
-                </Descriptions.Item>
-                <Descriptions.Item label="description" span={3}>
-                  {this.state.description}
-                </Descriptions.Item>
-              </Descriptions>
-              <Descriptions
-                title="Données personnelles"
-                column={4}
-                size="middle"
-              >
-                <Descriptions.Item label="Adresse" span={4}>
-                  {this.state.adresse}
-                </Descriptions.Item>
-                <Descriptions.Item label="email" span={2}>
-                  {this.state.email}
-                </Descriptions.Item>
-                <Descriptions.Item label="Téléphone" span={2}>
-                  {this.state.telephone}
-                </Descriptions.Item>
-                <Descriptions.Item label="Date de naissance" span={2}>
-                  {this.state.naissance}
-                </Descriptions.Item>
-              </Descriptions>
-              <Timeline className="ant-timeline-label">
-                {this.state.formations.map((formation) => {
-                  return (
-                    <FormationList
-                      key={formation.id}
-                      formation={formation}
-                      supprimer={this.supprimerFormation}
-                      toSuppr={false}
-                    />
-                  );
-                })}
-              </Timeline>
+              <IconContext.Provider value={{ size: "1.5em" }}>
+                <ResumeCurriculum cv={this.state} profile={profile} />
+              </IconContext.Provider>
+              <br />
               <Form.Item wrapperCol={{ offset: 0 }} layout="vertical">
                 <Button
                   type="primary"
@@ -485,6 +427,7 @@ class CreateCurriculum extends Component {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
 };
 
