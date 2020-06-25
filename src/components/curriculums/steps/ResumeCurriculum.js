@@ -18,7 +18,14 @@ import { RiFolderAddLine } from "react-icons/ri";
 
 class ResumeCurriculum extends Component {
   render() {
-    const { cv, profile } = this.props;
+    const { cv } = this.props;
+    let { profile } = this.props;
+    if (profile === undefined) {
+      profile = {
+        nom: cv.nom,
+        prenom: cv.prenom,
+      };
+    }
     return (
       <Row>
         <Col sm={24} md={6} className="CoteGaucheCV">
