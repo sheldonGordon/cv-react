@@ -68,6 +68,7 @@ class CreateCurriculum extends Component {
     competences: [],
     langues: [],
     loisirs: [],
+    public: false,
   };
 
   handleChange = (e) => {

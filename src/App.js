@@ -6,6 +6,7 @@ import DetailsCurriculum from "./components/curriculums/DetailsCurriculum";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import CreateCurriculums from "./components/curriculums/CreateCurriculum";
+import PdfCurriculum from "./components/curriculums/PdfCurriculum";
 
 import "./App.css";
 
@@ -22,6 +23,7 @@ export class App extends Component {
             <Route path="/signIn" component={SignIn} />
             <Route path="/signUp" component={SignUp} />
             <Route path="/create" component={CreateCurriculums} />
+            <Route path="/pdf/:id" component={PdfCurriculum} />
           </Switch>
         </div>
       </BrowserRouter>

@@ -131,7 +131,7 @@ class ResumeCurriculum extends Component {
           <Row>
             {cv.competences.map((competence) => {
               return (
-                <Col key={competence.id} sm={24} md={8} lg={6}>
+                <Col key={competence.id} xs={24} sm={12} md={8} lg={6}>
                   <Typography.Text
                     strong
                     style={{
