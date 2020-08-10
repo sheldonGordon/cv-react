@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import ReactHtmlParser from "react-html-parser";
+import parse from "html-react-parser";
 import {
   PDFViewer,
   Page,
@@ -12,8 +14,6 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import { Spin } from "antd";
-
-import { GiTeacher } from "react-icons/gi";
 
 class PdfCurriculum extends Component {
   render() {
@@ -54,6 +54,14 @@ class PdfCurriculum extends Component {
         fontSize: "12px",
         marginBottom: "5px",
       },
+      titel5: {
+        fontSize: "10px",
+        marginBottom: "3px",
+      },
+      titel6: {
+        fontSize: "9px",
+        marginBottom: "3px",
+      },
       viewImage: {
         width: "100px",
         height: "100px",
@@ -61,6 +69,9 @@ class PdfCurriculum extends Component {
       },
       image: {
         objectFit: "cover",
+      },
+      description: {
+        marginLeft: "20px",
       },
     });
     if (cv) {
@@ -114,7 +125,33 @@ class PdfCurriculum extends Component {
                 <Text style={styles.titel1}>{cv.titre}</Text>
                 <Text style={styles.titel4}>{cv.description}</Text>
                 <Text style={styles.titel2}>Formations</Text>
+                {cv.formations.map((formation) => {
+                  return (
+                    <Fragment key={formation.id}>
+                      <Text style={styles.titel5}>
+                        {`${formation.date[0]} à ${formation.date[1]} - ${formation.titre}`}
+                      </Text>
+                      <Text style={styles.titel5}>{formation.adresse}</Text>
+                      <Text style={[styles.titel6, styles.description]}>
+                        {parse(formation.description)}
+                      </Text>
+                    </Fragment>
+                  );
+                })}
                 <Text style={styles.titel2}>Expériences</Text>
+                {cv.experiences.map((experience) => {
+                  return (
+                    <Fragment>
+                      <Text style={styles.titel5}>
+                        {`${experience.date[0]} à ${experience.date[1]} - ${experience.titre}`}
+                      </Text>
+                      <Text style={styles.titel5}>{experience.adresse}</Text>
+                      <Text style={[styles.titel6, styles.description]}>
+                        {parse(experience.description)}
+                      </Text>
+                    </Fragment>
+                  );
+                })}
                 <Text style={styles.titel2}>Compétences</Text>
               </View>
             </Page>
