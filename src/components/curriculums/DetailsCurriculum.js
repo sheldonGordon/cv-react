@@ -9,8 +9,6 @@ import ResumeCurriculum from "./steps/ResumeCurriculum";
 
 import { Spin, Row, Col, Switch } from "antd";
 
-const ref = React.createRef();
-
 const DetailsCurriculum = (props) => {
   var { curriculum, id } = props;
 

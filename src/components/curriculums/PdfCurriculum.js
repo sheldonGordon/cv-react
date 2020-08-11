@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import ReactHtmlParser from "react-html-parser";
 import parse from "html-react-parser";
 import {
   PDFViewer,
@@ -73,6 +72,29 @@ class PdfCurriculum extends Component {
       description: {
         marginLeft: "20px",
       },
+      competences: {
+        flex: 1,
+        flexDirection: "row",
+        flexWrap: "wrap",
+      },
+      competence: {
+        width: "33%",
+      },
+      maitrises: {
+        flex: 1,
+        flexDirection: "row",
+        paddingLeft: "5px",
+        paddingRight: "5px",
+      },
+      maitrise: {
+        width: "10%",
+        height: "5px",
+        border: "1px",
+        backgroundColor: "black",
+      },
+      maitriseRadius: {
+        borderRadius: "3px",
+      },
     });
     if (cv) {
       return (
@@ -141,7 +163,7 @@ class PdfCurriculum extends Component {
                 <Text style={styles.titel2}>Expériences</Text>
                 {cv.experiences.map((experience) => {
                   return (
-                    <Fragment>
+                    <Fragment key={experience.id}>
                       <Text style={styles.titel5}>
                         {`${experience.date[0]} à ${experience.date[1]} - ${experience.titre}`}
                       </Text>
@@ -153,6 +175,28 @@ class PdfCurriculum extends Component {
                   );
                 })}
                 <Text style={styles.titel2}>Compétences</Text>
+                <View style={styles.competences}>
+                  {cv.competences.map((competence) => {
+                    return (
+                      <View key={competence.id} style={styles.competence}>
+                        <Text style={styles.titel5}>{competence.libelle}</Text>
+                        <Text style={styles.titel5}>{competence.maitrise}</Text>
+                        <View style={styles.maitrises}>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                          <div style={styles.maitrise}></div>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </View>
               </View>
             </Page>
           </Document>
